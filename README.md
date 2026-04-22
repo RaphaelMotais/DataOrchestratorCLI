@@ -41,7 +41,7 @@ export SCW_DEFAULT_ORGANIZATION_ID="you_organization_id"
 export SCW_API_URL="https://api.scaleway.com" (for external production)
 ```
 
-### Worflow Definition example
+### Workflow Definition example
 ```bash
 document:
   dsl: 1.0.0
