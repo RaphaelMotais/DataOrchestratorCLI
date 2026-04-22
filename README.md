@@ -1,10 +1,3 @@
-# DataOrchestratorCLI
-
-<p align="center">
-  <a href="https://circleci.com/gh/scaleway/scaleway-cli/tree/v2"><img src="https://circleci.com/gh/scaleway/scaleway-cli/tree/v2.svg?style=shield" alt="CircleCI" /></a>
-  <a href="https://goreportcard.com/report/github.com/scaleway/scaleway-cli"><img src="https://goreportcard.com/badge/scaleway/scaleway-cli" alt="GoReportCard" /></a> <!-- GoReportCard do not support branches. -->
-</p>
-
 # Data Orchestrator CLI
 
 The Data Orchestrator CLI is a command-line tool to manage and interact with Scaleway's Data Orchestrator platform directly from your terminal. It enables developers and operators to define, deploy, and monitor data workflows with ease.
