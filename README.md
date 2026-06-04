@@ -26,10 +26,10 @@ A command-line interface (CLI) tool for interacting with Scaleway's Data Orchest
 - Your Scaleway **Organisation ID**
 
 ### Download your CLI binary
-- [Macos ARM](https://github.com/RaphaelMotais/DataOrchestratorCLI/releases/download/1.0.0.0/scw-do-macos-arm)
-- [Macos AMD](https://github.com/RaphaelMotais/DataOrchestratorCLI/releases/download/1.0.0.0/scw-do-macos-amd64)
-- [Windows](https://github.com/RaphaelMotais/DataOrchestratorCLI/releases/download/1.0.0.0/scw-do.exe)
-- [Linux](https://github.com/RaphaelMotais/DataOrchestratorCLI/releases/download/1.0.0.0/scw-do-linux-amd64)
+- [Macos ARM](https://github.com/RaphaelMotais/DataOrchestratorCLI/releases/download/1.0.0.1/scw-do-macos-arm)
+- [Macos AMD](https://github.com/RaphaelMotais/DataOrchestratorCLI/releases/download/1.0.0.1/scw-do-macos-amd64)
+- [Windows](https://github.com/RaphaelMotais/DataOrchestratorCLI/releases/download/1.0.0.1/scw-do.exe)
+- [Linux](https://github.com/RaphaelMotais/DataOrchestratorCLI/releases/download/1.0.0.1/scw-do-linux)
 
 
 ### Configuration
@@ -38,13 +38,15 @@ Set your Scaleway credentials via environment variables:
 export SCW_ACCESS_KEY="your_access_key"
 export SCW_SECRET_KEY="your_secret_key"
 export SCW_DEFAULT_ORGANIZATION_ID="you_organization_id"
+export SCW_API_URL="https://agw.stg.fr-par.internal.scaleway.com" (for internal staging)
+export SCW_API_URL="https://agw.fr-par.internal.scaleway.com" (for internal production)
 export SCW_API_URL="https://api.scaleway.com" (for external production)
 ```
 
-### Workflow Definition example
+### Worflow Definition example
 ```bash
 document:
-  dsl: 1.0.0
+  dsl: 1.0.3
   namespace: examples
   name: example-workflow
   version: 1.0.0
@@ -58,14 +60,14 @@ do:
       call: serverless_job
       with:
         id: 0dbc8c9f-e6f2-4dd5-88e0-a4b7a4743f02
-        region: fr-par
+        region: nl-ams
   - taskTry:
       try:
         - try_task__fail:
             call: serverless_job
             with:
               id: daa3ea4e-97f3-4e5c-8fbc-66e438c979b9
-              region: fr-par
+              region: nl-ams
       catch:
         errors:
           with:
@@ -90,7 +92,7 @@ do:
 
 ##### With cron schedule
 ```bash
-./scw-do data-orchestrator definition create region=fr-par name="test-raph-001" project-id="264f6ba9-9858-4b7d-a5c8-8c01cc91b105" version-name="v1-0-0" yaml-content=@test.yaml cron-schedule="0 0 * * *"   cron-timezone="Europe/Paris"
+./scw-do data-orchestrator definition create region=fr-par name="test-raph-001" project-id="264f6ba9-9858-4b7d-a5c8-8c01cc91b105" version-name="v1-0-0" yaml-content=@test.yaml cron-schedule="0 0 * * *" cron-timezone="Europe/Paris"
 ```
 
 #### Update a Workflow Definition
@@ -100,7 +102,7 @@ do:
 
 #### Update a Workflow Definition with cron schedule
 ```bash
-./scw-do data-orchestrator definition update workflow-definition-id=8bf15625-dbda-4dd0-a229-360b917e27e7 name="super-workflow" cron-schedule="1 0 * * *" cron-timezone="Europe/Paris" region=fr-par
+./scw-do data-orchestrator definition update workflow-definition-id=8bf15625-dbda-4dd0-a229-360b917e27e7 name="super-workflow" cron-schedule="1 0 * * *" cron-timezone="Europe/Paris" overlap-policy=buffer_one region=fr-par
 ```
 
 #### Delete a Workflow Definition
@@ -126,6 +128,21 @@ do:
 #### Start a Workflow
 ```bash
 ./scw-do data-orchestrator definition start region=fr-par workflow-definition-id=c4964e39-394b-42ba-a095-51a1406f7ffa
+```
+
+#### Pause a Workflow
+```bash
+./scw-do data-orchestrator run pause region=fr-par workflow-run-id=c4964e39-394b-42ba-a095-51a1406f7ffa
+```
+
+#### Resume a Workflow
+```bash
+./scw-do data-orchestrator run resume region=fr-par workflow-run-id=c4964e39-394b-42ba-a095-51a1406f7ffa
+```
+
+#### Terminate a Workflow
+```bash
+./scw-do data-orchestrator run terminate region=fr-par workflow-run-id=c4964e39-394b-42ba-a095-51a1406f7ffa
 ```
 
 #### List Workflow runs
