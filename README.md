@@ -38,10 +38,10 @@ Download the latest release for your platform:
 
 **Latest version (v1.0.4):**
 
-- [Linux AMD64](https://gitlab.infra.online.net/products/wofl/src/data-orchestrator-cli/-/jobs/38840021/artifacts/raw/bin/scw-do-linux-amd64?inline=false)
-- [macOS ARM64 (M1/M2)](https://gitlab.infra.online.net/products/wofl/src/data-orchestrator-cli/-/jobs/38840021/artifacts/raw/bin/scw-do-macos-arm64?inline=false)
-- [macOS AMD64 (Intel)](https://gitlab.infra.online.net/products/wofl/src/data-orchestrator-cli/-/jobs/38840021/artifacts/raw/bin/scw-do-macos-amd64?inline=false)
-- [Windows AMD64](https://gitlab.infra.online.net/products/wofl/src/data-orchestrator-cli/-/jobs/38840021/artifacts/raw/bin/scw-do-windows-amd64.exe?inline=false)
+- [Linux AMD64](https://github.com/RaphaelMotais/DataOrchestratorCLI/releases/download/1.0.0.2/scw-do-linux)
+- [macOS ARM64 (M1/M2)](https://github.com/RaphaelMotais/DataOrchestratorCLI/releases/download/1.0.0.2/scw-do-macos-arm64)
+- [macOS AMD64 (Intel)](https://github.com/RaphaelMotais/DataOrchestratorCLI/releases/download/1.0.0.2/scw-do-macos-amd64)
+- [Windows AMD64](https://github.com/RaphaelMotais/DataOrchestratorCLI/releases/download/1.0.0.2/scw-do-windows-amd64.exe)
 
 > 💡 **Note**: These links point to the latest successful build artifacts. For permanent links, go to the [Releases page](https://gitlab.infra.online.net/products/wofl/src/data-orchestrator-cli/-/releases) and download from there.
 
