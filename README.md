@@ -1,8 +1,15 @@
+<p align="center"><img width="50%" src="docs/static_files/cli-artwork.png" /></p>
+
+<p align="center">
+ <a href="https://circleci.com/gh/scaleway/scaleway-cli/tree/v2"><img src="https://circleci.com/gh/scaleway/scaleway-cli/tree/v2.svg?style=shield" alt="CircleCI" /></a>
+ <a href="https://goreportcard.com/report/github.com/scaleway/scaleway-cli"><img src="https://goreportcard.com/badge/scaleway/scaleway-cli" alt="GoReportCard" /></a> <!-- GoReportCard do not support branches. -->
+</p>
+
 # Data Orchestrator CLI
 
 The Data Orchestrator CLI is a command-line tool to manage and interact with Scaleway's Data Orchestrator platform directly from your terminal. It enables developers and operators to define, deploy, and monitor data workflows with ease.
 
-> ⚠️ **Private Beta**  
+> ⚠️ **Private Beta** 
 > This project is currently in private beta. Commands and APIs may change before general availability.
 
 ---
@@ -11,7 +18,7 @@ The Data Orchestrator CLI is a command-line tool to manage and interact with Sca
 
 A command-line interface (CLI) tool for interacting with Scaleway's Data Orchestrator API. This tool allows you to manage workflows, definitions, and executions directly from your terminal.
 
-> ⚠️ **Private Beta**  
+> ⚠️ **Private Beta** 
 > This project is currently in private beta. Commands and APIs may change before general availability.
 
 ---
@@ -26,11 +33,28 @@ A command-line interface (CLI) tool for interacting with Scaleway's Data Orchest
 - Your Scaleway **Organisation ID**
 
 ### Download your CLI binary
-- [Macos ARM](https://github.com/RaphaelMotais/DataOrchestratorCLI/releases/download/1.0.0.1/scw-do-macos-arm)
-- [Macos AMD](https://github.com/RaphaelMotais/DataOrchestratorCLI/releases/download/1.0.0.1/scw-do-macos-amd64)
-- [Windows](https://github.com/RaphaelMotais/DataOrchestratorCLI/releases/download/1.0.0.1/scw-do.exe)
-- [Linux](https://github.com/RaphaelMotais/DataOrchestratorCLI/releases/download/1.0.0.1/scw-do-linux)
 
+Download the latest release for your platform:
+
+**Latest version (v1.0.4):**
+
+- [Linux AMD64](https://gitlab.infra.online.net/products/wofl/src/data-orchestrator-cli/-/jobs/38840021/artifacts/raw/bin/scw-do-linux-amd64?inline=false)
+- [macOS ARM64 (M1/M2)](https://gitlab.infra.online.net/products/wofl/src/data-orchestrator-cli/-/jobs/38840021/artifacts/raw/bin/scw-do-macos-arm64?inline=false)
+- [macOS AMD64 (Intel)](https://gitlab.infra.online.net/products/wofl/src/data-orchestrator-cli/-/jobs/38840021/artifacts/raw/bin/scw-do-macos-amd64?inline=false)
+- [Windows AMD64](https://gitlab.infra.online.net/products/wofl/src/data-orchestrator-cli/-/jobs/38840021/artifacts/raw/bin/scw-do-windows-amd64.exe?inline=false)
+
+> 💡 **Note**: These links point to the latest successful build artifacts. For permanent links, go to the [Releases page](https://gitlab.infra.online.net/products/wofl/src/data-orchestrator-cli/-/releases) and download from there.
+
+### Or build from source
+
+```bash
+git clone git@gitlab.infra.online.net:products/wofl/src/data-orchestrator-cli.git
+cd data-orchestrator-cli
+
+And build directly:
+```bash
+go build -o scw-do ./cmd/scw
+```
 
 ### Configuration
 Set your Scaleway credentials via environment variables:
@@ -132,22 +156,41 @@ do:
 
 #### Pause a Workflow
 ```bash
-./scw-do data-orchestrator run pause region=fr-par workflow-run-id=c4964e39-394b-42ba-a095-51a1406f7ffa
+./scw-do data-orchestrator run pause region=fr-par project-id=264f6ba9-9858-4b7d-a5c8-8c01cc91b105 workflow-run-id=c4964e39-394b-42ba-a095-51a1406f7ffa
 ```
 
 #### Resume a Workflow
 ```bash
-./scw-do data-orchestrator run resume region=fr-par workflow-run-id=c4964e39-394b-42ba-a095-51a1406f7ffa
+./scw-do data-orchestrator run resume region=fr-par project-id=264f6ba9-9858-4b7d-a5c8-8c01cc91b105 workflow-run-id=c4964e39-394b-42ba-a095-51a1406f7ffa
 ```
 
 #### Terminate a Workflow
 ```bash
-./scw-do data-orchestrator run terminate region=fr-par workflow-run-id=c4964e39-394b-42ba-a095-51a1406f7ffa
+./scw-do data-orchestrator run terminate region=fr-par project-id=264f6ba9-9858-4b7d-a5c8-8c01cc91b105 workflow-run-id=c4964e39-394b-42ba-a095-51a1406f7ffa
 ```
+
+#### Delete a Workflow Run
+```bash
+./scw-do data-orchestrator run delete region=fr-par project-id=264f6ba9-9858-4b7d-a5c8-8c01cc91b105 workflow-run-id=c4964e39-394b-42ba-a095-51a1406f7ffa
+```
+
+#### Cleanup Old Workflow Runs
+Delete all workflow runs older than a specified duration:
+```bash
+./scw-do data-orchestrator run cleanup region=fr-par older-than=30d project-id=264f6ba9-9858-4b7d-a5c8-8c01cc91b105
+```
+
+With optional flags:
+```bash
+# Dry-run mode (preview what would be deleted)
+./scw-do data-orchestrator run cleanup region=fr-par older-than=30d project-id=264f6ba9-9858-4b7d-a5c8-8c01cc91b105 dry-run=true
+```
+
+Supported duration suffixes: `d` (days), `h` (hours), `m` (minutes)
 
 #### List Workflow runs
 ```bash
-./scw-do data-orchestrator run list region=fr-par
+./scw-do data-orchestrator run list region=fr-par project-id=264f6ba9-9858-4b7d-a5c8-8c01cc91b105
 ```
 
 #### Get a run status
@@ -158,6 +201,19 @@ do:
 #### Get a runs status in graph
 ```bash
 ./scw-do data-orchestrator run status workflow-run-id=bacc819b-5cce-499f-a3df-025a2d7056b9 region=fr-par
+```
+
+#### List Projects with Data Orchestrator Permissions
+List all accessible projects and their Data Orchestrator permissions (read/write):
+```bash
+./scw-do data-orchestrator project list
+```
+
+Example output:
+```
+PROJECT ID                            PROJECT NAME    READ    WRITE    PERMISSIONS
+264f6ba9-9858-4b7d-a5c8-8c01cc91b105  my-project      true    true     DataOrchestratorReadOnly, DataOrchestratorWrite
+31f89829-6143-46c3-bfc8-6d98907d8e72  test-project    true    false    DataOrchestratorReadOnly
 ```
 
 #### For a full list of commands, run:
