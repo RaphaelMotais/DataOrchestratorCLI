@@ -1,3 +1,5 @@
+<p align="center"><img width="50%" src="docs/static_files/cli-artwork.png" /></p>
+
 <p align="center">
  <a href="https://circleci.com/gh/scaleway/scaleway-cli/tree/v2"><img src="https://circleci.com/gh/scaleway/scaleway-cli/tree/v2.svg?style=shield" alt="CircleCI" /></a>
  <a href="https://goreportcard.com/report/github.com/scaleway/scaleway-cli"><img src="https://goreportcard.com/badge/scaleway/scaleway-cli" alt="GoReportCard" /></a> <!-- GoReportCard do not support branches. -->
@@ -34,12 +36,12 @@ A command-line interface (CLI) tool for interacting with Scaleway's Data Orchest
 
 Download the latest release for your platform:
 
-**Latest version (v1.0.4):**
+**Latest version (v1.2.7):**
 
-- [Linux AMD64](https://github.com/RaphaelMotais/DataOrchestratorCLI/releases/download/1.0.0.2/scw-do-linux)
-- [macOS ARM64 (M1/M2)](https://github.com/RaphaelMotais/DataOrchestratorCLI/releases/download/1.0.0.2/scw-do-macos-arm64)
-- [macOS AMD64 (Intel)](https://github.com/RaphaelMotais/DataOrchestratorCLI/releases/download/1.0.0.2/scw-do-macos-amd64)
-- [Windows AMD64](https://github.com/RaphaelMotais/DataOrchestratorCLI/releases/download/1.0.0.2/scw-do-windows-amd64.exe)
+- [Linux AMD64](https://gitlab.infra.online.net/products/wofl/src/data-orchestrator-cli/-/jobs/42424559/artifacts/raw/bin/scw-do-linux-amd64?inline=false)
+- [macOS ARM64 (M1/M2)](https://gitlab.infra.online.net/products/wofl/src/data-orchestrator-cli/-/jobs/42424559/artifacts/raw/bin/scw-do-macos-arm64?inline=false)
+- [macOS AMD64 (Intel)](https://gitlab.infra.online.net/products/wofl/src/data-orchestrator-cli/-/jobs/42424559/artifacts/raw/bin/scw-do-macos-amd64?inline=false)
+- [Windows AMD64](https://gitlab.infra.online.net/products/wofl/src/data-orchestrator-cli/-/jobs/42424559/artifacts/raw/bin/scw-do-windows-amd64.exe?inline=false)
 
 > 💡 **Note**: These links point to the latest successful build artifacts. For permanent links, go to the [Releases page](https://gitlab.infra.online.net/products/wofl/src/data-orchestrator-cli/-/releases) and download from there.
 
@@ -59,11 +61,22 @@ Set your Scaleway credentials via environment variables:
 ```bash
 export SCW_ACCESS_KEY="your_access_key"
 export SCW_SECRET_KEY="your_secret_key"
-export SCW_DEFAULT_ORGANIZATION_ID="you_organization_id"
+export SCW_DEFAULT_PROJECT_ID="your_project_id"
+export SCW_DEFAULT_ORGANIZATION_ID="your_organization_id"
 export SCW_API_URL="https://agw.stg.fr-par.internal.scaleway.com" (for internal staging)
-export SCW_API_URL="https://agw.fr-par.internal.scaleway.com" (for internal production)
-export SCW_API_URL="https://api.scaleway.com" (for external production)
+export SCW_API_URL="https://api.scaleway.com" (for production)
 ```
+
+> ⚠️ **API version `v1alpha2`**
+> The CLI targets the `data-orchestrator` **`v1alpha2`** API (the `v1alpha1` version is no longer served and returns HTTP 500).
+> List commands require a scope: they default to your **project** (`SCW_DEFAULT_PROJECT_ID`) or fall back to your organization (`SCW_DEFAULT_ORGANIZATION_ID`).
+> Note that the `DataOrchestratorFullAccess` permission is granted at the **project** scope, so lists are scoped by `project_id` by default (scoping by organization alone yields `403 insufficient permissions`).
+
+> 🗺️ **Regions per environment**
+> | Environment | `SCW_API_URL` | `region` argument |
+> |---|---:|---:|
+> | Production | `https://api.scaleway.com` | `fr-par` |
+> | Staging (internal) | `https://agw.stg.fr-par.internal.scaleway.com` | `fr-srr` |
 
 ### Worflow Definition example
 ```bash
@@ -136,6 +149,7 @@ do:
 ```bash
 ./scw-do data-orchestrator definition list region=fr-par
 ```
+> The list is scoped by your default project (`SCW_DEFAULT_PROJECT_ID`). You can pass `project-id=<uuid>` or `organization-id=<uuid>` to override.
 
 #### Get a Specific Workflow
 ```bash
